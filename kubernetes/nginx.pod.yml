@@ -1,14 +1,14 @@
 apiVersion: extensions/v1beta1 
 kind: Deployment
 metadata:
-  name: thoughtdata-nginx
+  name: nginx
 spec:
   replicas: 1
   revisionHistoryLimit: 1
   template:
     metadata:
       labels:
-        app: thoughtdata-nginx
+        app: nginx
     spec:
       volumes:
       - name: thoughtdata-letsencrypt
@@ -16,12 +16,14 @@ spec:
       nodeSelector:
         thoughtdata: 'true'
       containers:
-      - name: thoughtdata-nginx
+      - name: nginx
         image: eu.gcr.io/peopledata-product-team/td.nginx:{{ENV.GO_PIPELINE_COUNTER}}
         imagePullPolicy: Always
         env:
         - name: LETSENCRYPT
           value: 'true'
+        - name: LETSENCRYPT_EMAIL
+          value: 'peopledata-product-team@thoughtworks.com'
         volumeMounts:
           - name: thoughtdata-letsencrypt
             mountPath: /etc/letsencrypt/live

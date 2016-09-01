@@ -70,10 +70,11 @@ RUN dnf -y -q install openssl && \
 # Setup NGINX configuration
 RUN mkdir -p /etc/nginx/conf.d
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY thoughtdata.conf /etc/nginx/conf.d
-COPY generate_letsencrypt.sh /usr/local/bin/
+RUN mkdir -p /usr/local/etc/nginx
+COPY ssl.default.conf /usr/local/etc/nginx
+COPY start.sh /usr/local/bin/
 
 EXPOSE 80
 EXPOSE 443
 
-CMD ["/usr/local/bin/generate_letsencrypt.sh"]
+CMD ["/usr/local/bin/start.sh"]
