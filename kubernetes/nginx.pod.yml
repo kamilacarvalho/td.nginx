@@ -24,6 +24,12 @@ spec:
           value: 'true'
         - name: LETSENCRYPT_EMAIL
           value: 'peopledata-product-team@thoughtworks.com'
+        - name: HOST_GATEWAY
+          value: 'gateway.thoughtdata.thoughtworks.net,gateway:9000'
+        - name: HOST_DASHBOARD
+          value: 'gateway.thoughtdata.thoughtworks.net,dashboard:9001'
+        - name: HOST_RABBITMQ
+          value: 'rabbitmq.thoughtdata.thoughtworks.net,rabbitmq:15672'
         volumeMounts:
           - name: thoughtdata-letsencrypt
             mountPath: /etc/letsencrypt/live
