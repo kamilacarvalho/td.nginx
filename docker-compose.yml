@@ -13,7 +13,7 @@ services:
           - gateway
           - dashboard
     environment:
-      - HOST_GATEWAY=gateway.thoughtdata.thoughtworks.net,gateway:9000
+      - HOST_GATEWAY=gateway.thoughtdata.thoughtworks.net,gateway:9000,default_server
       - HOST_DASHBOARD=dashboard.thoughtdata.thoughtworks.net,dashboard:9001
     ports:
       - 443

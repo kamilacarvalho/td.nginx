@@ -36,6 +36,7 @@ function write_nginx_config() {
   cp /usr/local/etc/nginx/ssl.default.conf /etc/nginx/conf.d/$FQDN.conf
   sed -i "s/FQDN/$FQDN/g" /etc/nginx/conf.d/$FQDN.conf 
   sed -i "s/UPSTREAM/$UPSTREAM/g" /etc/nginx/conf.d/$FQDN.conf
+  sed -i "s/DEFAULT/$DEFAULT/g" /etc/nginx/conf.d/$FQDN.conf
   cat /etc/nginx/conf.d/$FQDN.conf 
 }
 
@@ -45,6 +46,7 @@ function extract_info() {
   IFS=','; SPLIT=($HOST)
   FQDN=${SPLIT[0]}
   UPSTREAM=${SPLIT[1]}
+  DEFAULT=${SPLIT[2]}
 }
 
 start_nginx() {
