@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1 
+kind: Deployment
+metadata:
+  name: thoughtdata-nginx
+spec:
+  replicas: 1
+  revisionHistoryLimit: 1
+  template:
+    metadata:
+      labels:
+        app: thoughtdata-nginx
+    spec:
+      volumes:
+      - name: thoughtdata-letsencrypt
+        emptyDir: {}
+      nodeSelector:
+        thoughtdata: 'true'
+      containers:
+      - name: thoughtdata-nginx
+        image: eu.gcr.io/peopledata-product-team/td.nginx:{{ENV.GO_PIPELINE_COUNTER}}
+        imagePullPolicy: Always
+        env:
+        - name: LETSENCRYPT
+          value: 'true'
+        volumeMounts:
+          - name: thoughtdata-letsencrypt
+            mountPath: /etc/letsencrypt/live
+        ports:
+        - containerPort: 80
+        - containerPort: 443

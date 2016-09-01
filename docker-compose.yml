@@ -1,0 +1,14 @@
+version: '2'
+
+networks:
+  frontplane:
+
+services:
+  td.nginx:
+    image: eu.gcr.io/peopledata-product-team/td.nginx
+    restart: always
+    networks:
+      frontplane:
+    ports:
+      - 443
+      - 80
