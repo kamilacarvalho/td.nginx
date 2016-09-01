@@ -21,7 +21,10 @@ spec:
         imagePullPolicy: Always
         env:
         - name: LETSENCRYPT
-          value: 'true'
+          valueFrom:
+            configMapKeyRef:
+              name: namespace-config 
+              key: letsencrypt.enabled 
         - name: LETSENCRYPT_EMAIL
           value: 'peopledata-product-team@thoughtworks.com'
         - name: HOST_GATEWAY

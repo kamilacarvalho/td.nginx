@@ -85,6 +85,7 @@ for i in "${!HOSTS[@]}"; do
   done
 done
 
+nginx -t
 start_nginx
 
 for i in "${!HOSTS[@]}"; do
