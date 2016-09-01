@@ -27,17 +27,17 @@ spec:
         - name: HOST_GATEWAY
           valueFrom:
             configMapKeyRef:
-              name: letsencrypt.domains 
+              name: namespace-config 
               key: host.gateway
         - name: HOST_DASHBOARD
           valueFrom:
             configMapKeyRef:
-              name: letsencrypt.domains 
+              name: namespace-config
               key: host.dashboard
         - name: HOST_RABBITMQ
           valueFrom:
             configMapKeyRef:
-              name: letsencrypt.domains 
+              name: namespace-config 
               key: host.rabbitmq
         volumeMounts:
           - name: thoughtdata-letsencrypt
