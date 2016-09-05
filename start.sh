@@ -17,18 +17,40 @@ function finish {
 trap finish TERM INT
 
 function generate_self_signed() {
-  echo Generating self signed certificate for $FQDN
   mkdir -p /etc/letsencrypt/live/$FQDN
   cd /etc/letsencrypt/live/$FQDN
-  openssl req \
-    -new \
-    -newkey rsa:4096 \
-    -days 365 \
-    -nodes \
-    -x509 \
-    -subj "/C=UK/ST=Manchester/L=UK/O=ThoughtWorks/CN=$FQDN" \
-    -keyout key.pem \
-    -out fullchain.pem
+
+  if [ -f "fullchain.pem" ]; then
+    echo A certificate already exists for $FQDN, skipping self signed generation.
+  else
+    echo Generating self signed certificate for $FQDN
+    openssl req \
+      -new \
+      -newkey rsa:4096 \
+      -days 365 \
+      -nodes \
+      -x509 \
+      -subj "/C=UK/ST=Manchester/L=UK/O=ThoughtWorks/CN=$FQDN" \
+      -keyout key.pem \
+      -out fullchain.pem
+  fi
+}
+
+generate_lets_encrypt() {
+  if [ "$LETSENCRYPT" == "true" ]; then
+    echo Running simp_le letsencrypt for $FQDN
+    cd /etc/letsencrypt/live/$FQDN
+    simp_le \
+      --email $LETSENCRYPT_EMAIL \
+      -f account_key.json \
+      -f fullchain.pem \
+      -f key.pem \
+      -d $FQDN \
+      --default_root /usr/share/nginx/html \
+      --tos_sha256 6373439b9f29d67a5cd4d18cbc7f264809342dbf21cb2ba2fc7588df987a6221 
+  else
+    echo Letsencrypt generation has been skipped.
+  fi
 }
 
 function write_nginx_config() {
@@ -59,14 +81,6 @@ start_nginx() {
 
 reload_nginx() {
   nginx -s reload
-}
-
-generate_lets_encrypt() {
-  if [ "$LETSENCRYPT" == "true" ]; then
-    echo Generating lets encrypt certificate for $FQDN
-    cd /etc/letsencrypt/live/$FQDN
-    simp_le --email $LETSENCRYPT_EMAIL -f account_key.json -f fullchain.pem -f key.pem -d $FQDN --default_root /usr/share/nginx/html --tos_sha256 6373439b9f29d67a5cd4d18cbc7f264809342dbf21cb2ba2fc7588df987a6221 
-  fi
 }
 
 read -r -a HOSTS <<< $(export  | grep "HOST_" | awk '{ print $3 }')
