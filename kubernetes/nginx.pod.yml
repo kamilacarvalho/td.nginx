@@ -26,7 +26,10 @@ spec:
               name: namespace-config 
               key: letsencrypt.enabled 
         - name: LETSENCRYPT_EMAIL
-          value: 'peopledata-product-team@thoughtworks.com'
+          valueFrom:
+            configMapKeyRef:
+              name: namespace-config 
+              key: letsencrypt.email 
         - name: HOST_GATEWAY
           valueFrom:
             configMapKeyRef:
