@@ -57,12 +57,14 @@ function write_nginx_config() {
   echo Writing nginx config for $FQDN with an upstream of $UPSTREAM
   cp /usr/local/etc/nginx/ssl.default.conf /etc/nginx/conf.d/$FQDN.conf
   sed -i "s/FQDN/$FQDN/g" /etc/nginx/conf.d/$FQDN.conf 
+  sed -i "s/UPSTREAMNAME/$UPSTREAMNAME/g" /etc/nginx/conf.d/$FQDN.conf
   sed -i "s/UPSTREAM/$UPSTREAM/g" /etc/nginx/conf.d/$FQDN.conf
   sed -i "s/DEFAULT/$DEFAULT/g" /etc/nginx/conf.d/$FQDN.conf
   cat /etc/nginx/conf.d/$FQDN.conf 
 }
 
 function extract_info() {
+  UPSTREAM_NAME=$(echo ${arr[0]} | awk '{print tolower($0)}')
   HOST=${arr[$j]}
   HOST=${HOST//\"/}
   IFS=','; SPLIT=($HOST)
