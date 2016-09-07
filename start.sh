@@ -64,7 +64,7 @@ function write_nginx_config() {
 }
 
 function extract_info() {
-  UPSTREAM_NAME=$(echo ${arr[0]} | awk '{print tolower($0)}')
+  UPSTREAMNAME=$(echo ${arr[0]} | awk '{print tolower($0)}')
   HOST=${arr[$j]}
   HOST=${HOST//\"/}
   IFS=','; SPLIT=($HOST)
