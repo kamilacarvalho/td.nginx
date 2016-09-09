@@ -96,7 +96,7 @@ done
 for i in "${!HOSTS[@]}"; do
   VAR=${HOSTS[$i]}
   IFS='='; arr=($VAR)
-  for j in "${!HOSTS[@]}"; do
+  for j in "${!arr[@]}"; do
     if [[ $((j % 2)) == 1 ]]; then
       extract_info
       generate_self_signed
@@ -111,7 +111,7 @@ start_nginx
 for i in "${!HOSTS[@]}"; do
   VAR=${HOSTS[$i]}
   IFS='='; arr=($VAR)
-  for j in "${!HOSTS[@]}"; do
+  for j in "${!arr[@]}"; do
     if [[ $((j % 2)) == 1 ]]; then
       extract_info
       generate_lets_encrypt

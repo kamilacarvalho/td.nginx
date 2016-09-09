@@ -72,9 +72,9 @@ RUN mkdir -p /etc/nginx/conf.d
 COPY nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /usr/local/etc/nginx
 COPY ssl.default.conf /usr/local/etc/nginx
-COPY start.sh /usr/local/bin/
+COPY start_nginx.sh /usr/local/bin/
 
 EXPOSE 80
 EXPOSE 443
 
-CMD ["/usr/local/bin/start.sh"]
+CMD ["/usr/local/bin/start_nginx.sh"]
